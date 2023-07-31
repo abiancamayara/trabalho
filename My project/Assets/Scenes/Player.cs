@@ -6,19 +6,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public int health = 3 ;
     public float speed;
     public float jumpForce;
-    
+
     private Rigidbody2D rig;
     private Animator anim;
 
     private bool isJumping;
 
     private bool doubleJump;
-    private bool isFire;
-    
-    public bool isRight;
+
+    private float movement;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +39,7 @@ public class Player : MonoBehaviour
 
     void Mover()
     {
-        float movement = Input.GetAxis("Horizontal");
+        movement = Input.GetAxis("Horizontal");
 
         rig.velocity = new Vector2(movement * speed, rig.velocity.y);
 
@@ -51,8 +49,7 @@ public class Player : MonoBehaviour
             {
                 anim.SetInteger("transition", 1);
             }
-
-            isRight = true;
+            
             transform.eulerAngles = new Vector3(0, 0, 0);
 
         }
@@ -63,15 +60,10 @@ public class Player : MonoBehaviour
             {
                 anim.SetInteger("transition", 1);
             }
-
-            isRight = false;
+            
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
-
-        if (movement == 0 && !isJumping)
-        {
-            anim.SetInteger("transition", 0);
-        }
+        
     }
 
     void Jump()
@@ -93,6 +85,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+    
     
     void OnCollisionEnter2D(Collision2D coll)
     { 
