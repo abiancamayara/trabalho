@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public int health = 3;
     public float speed;
     public float jumpForce;
+
+    public AudioSource atack;
+
+    public GameObject bow;
+    public Transform firePoint;
 
     private Rigidbody2D rig;
     private Animator anim;
@@ -15,8 +21,11 @@ public class Player : MonoBehaviour
     private bool isJumping;
 
     private bool doubleJump;
+    private bool isFire;
 
     private float movement;
+    public bool isRight;
+    public Vector3 posInicial;
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +58,8 @@ public class Player : MonoBehaviour
             {
                 anim.SetInteger("transition", 1);
             }
-            
+
+            isRight = true;
             transform.eulerAngles = new Vector3(0, 0, 0);
 
         }
@@ -60,10 +70,15 @@ public class Player : MonoBehaviour
             {
                 anim.SetInteger("transition", 1);
             }
-            
+
+            isRight = false;
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
-        
+
+        if (movement == 0 && !isJumping && !isFire)
+        {
+            anim.SetInteger("transition", 0);
+        }
     }
 
     void Jump()
@@ -85,13 +100,5 @@ public class Player : MonoBehaviour
             }
         }
     }
-    
-    
-    void OnCollisionEnter2D(Collision2D coll)
-    { 
-        if (coll.gameObject.layer == 8)
-        {
-            isJumping = false;
-        }
-    }
 }
+        
